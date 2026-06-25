@@ -218,7 +218,6 @@ View all transactions associated with accounts.
 
 ---
 
-## Screenshots
 
 ### Home Page
 
