@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="form-card p-4 mb-4">
+      <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-3">
+        <div>
+          <p class="section-title mb-1">Account Details</p>
+          <h2 class="fw-bold">{{ account['account_name'] }}</h2>
+        </div>
+        <div class="text-end">
+          <p class="mb-1 text-muted">Account Number</p>
+          <h6 class="mb-0">{{ account['account_no'] }}</h6>
+        </div>
+      </div>
+      <div class="row gy-3">
+        <div class="col-md-4">
+          <div class="summary-card card p-3">
+            <p class="text-muted mb-2">Phone</p>
+            <h5>{{ account['phone_number'] }}</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="summary-card card p-3">
+            <p class="text-muted mb-2">Balance</p>
+            <h5>${{ "{0:,.2f}".format(account['balance']) }}</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="summary-card card p-3">
+            <p class="text-muted mb-2">Created</p>
+            <h5>{{ account['created_at'] }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <p class="section-title mb-1">Transactions</p>
+          <h2 class="fw-bold">Recent activity</h2>
+        </div>
+        <a href="{{ url_for('accounts') }}" class="btn btn-outline-light btn-sm">Back to Accounts</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-borderless text-white align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Balance After</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if transactions %}
+            {% for txn in transactions %}
+            <tr>
+              <td>{{ txn['created_at'] }}</td>
+              <td>{{ txn['transaction_type'] }}</td>
+              <td>${{ "{0:,.2f}".format(txn['amount']) }}</td>
+              <td>${{ "{0:,.2f}".format(txn['balance_after']) }}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr><td colspan="4" class="text-muted">No transactions recorded yet.</td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

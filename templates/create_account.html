@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="form-card p-5">
+      <div class="mb-4">
+        <p class="section-title mb-2">Create Account</p>
+        <h2 class="fw-bold">Open a new Union Bank account</h2>
+        <p class="text-muted">Complete the secure form to generate a unique account number and start banking.</p>
+      </div>
+      <form id="createAccountForm" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+          {{ form.account_name.label(class_='form-label') }}
+          {{ form.account_name(class_='form-control') }}
+          {% for error in form.account_name.errors %}
+          <div class="form-error">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="mb-3">
+          {{ form.phone_number.label(class_='form-label') }}
+          {{ form.phone_number(id='phone_number', class_='form-control') }}
+          {% for error in form.phone_number.errors %}
+          <div class="form-error">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Account Number</label>
+          <input type="text" class="form-control" readonly value="{{ account_no if account_no else 'Will generate after submission' }}" />
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

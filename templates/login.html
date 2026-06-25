@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-5">
+    <div class="form-card p-5">
+      <p class="section-title mb-2">Login</p>
+      <h2 class="fw-bold mb-4">Access your Union Bank account</h2>
+      <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+          {{ form.email.label(class_='form-label') }}
+          {{ form.email(class_='form-control') }}
+          {% for error in form.email.errors %}
+          <div class="form-error">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="mb-4">
+          {{ form.password.label(class_='form-label') }}
+          {{ form.password(class_='form-control') }}
+          {% for error in form.password.errors %}
+          <div class="form-error">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Union Bank</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Font Awesome icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <!-- Union Bank styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+
+    <!-- ── Navbar ── -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+      <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <span class="navbar-logo">UB</span>
+          Union Bank
+        </a>
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Nav content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="d-flex align-items-center justify-content-between w-100 flex-wrap flex-lg-nowrap gap-2 ps-lg-3">
+
+            <!-- Nav links -->
+            <ul class="navbar-nav d-flex flex-row flex-wrap align-items-center gap-1 mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">
+                  <i class="fa-solid fa-house" aria-hidden="true"></i> Home
+                </a>
+              </li>
+              {% if current_user %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('create_account') }}">
+                  <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Create Account
+                </a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('deposit') }}">
+                  <i class="fa-solid fa-arrow-down-to-arc" aria-hidden="true"></i> Deposit
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('withdraw') }}">
+                  <i class="fa-solid fa-arrow-up-from-arc" aria-hidden="true"></i> Withdraw
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('accounts') }}">
+                  <i class="fa-solid fa-table-list" aria-hidden="true"></i> Accounts
+                </a>
+              </li>
+            </ul>
+
+            <!-- CTA buttons -->
+            <div class="d-flex gap-2 align-items-center mt-2 mt-lg-0 flex-shrink-0">
+              {% if current_user %}
+              <span class="navbar-text text-white small">Signed in as {{ current_user['email'] }}</span>
+              <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-sm">Logout</a>
+              {% else %}
+              <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-sm">Login</a>
+              <a href="{{ url_for('signup') }}" class="btn btn-primary btn-sm">Sign Up</a>
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── Main ── -->
+    <main class="container main-content">
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="mb-4">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} flash-message" role="alert">
+          <i class="fa-solid fa-{{ 'circle-check' if category == 'success' else 'triangle-exclamation' }} me-2" aria-hidden="true"></i>
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- ── Footer ── -->
+    <footer>
+      <div class="container">
+        <p>© {{ 2026 }} Union Bank &nbsp;·&nbsp; Built with Flask, Bootstrap &amp; SQLite.</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

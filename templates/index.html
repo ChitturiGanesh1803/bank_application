@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero-section">
+  <div class="row align-items-center gy-4">
+    <div class="col-lg-6">
+      <div class="hero-card p-5">
+        <p class="section-title mb-3">Welcome to Union Bank</p>
+        <h1 class="display-6 fw-bold">Modern banking designed for your financial confidence.</h1>
+        <p class="lead text-muted mt-4">Open accounts, move funds, and manage money with a premium, secure experience built for individuals and businesses.</p>
+        <div class="hero-buttons d-flex gap-3 mt-4">
+          {% if current_user %}
+          <a href="{{ url_for('create_account') }}" class="btn btn-primary">Create Account</a>
+          {% else %}
+          <a href="{{ url_for('signup') }}" class="btn btn-primary">Create Account</a>
+          {% endif %}
+          <a href="{{ url_for('accounts') }}" class="btn btn-outline-light">View Accounts</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="hero-card p-5 text-center">
+        <i class="fa-solid fa-bank fa-4x text-warning"></i>
+        <h2 class="mt-4">Union Bank</h2>
+        <p class="text-muted">A polished dashboard for everyday banking operations and account visibility.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="row g-4 mt-5">
+  <div class="col-md-4">
+    <div class="summary-card card p-4">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+          <h6>Total Accounts</h6>
+          <h2>{{ total_accounts }}</h2>
+        </div>
+        <div class="icon-box">
+          <i class="fa-solid fa-users"></i>
+        </div>
+      </div>
+      <p class="text-muted">All active Union Bank customers in your registry.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="summary-card card p-4">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+          <h6>Total Balance</h6>
+          <h2>${{ "{0:,.2f}".format(total_balance) }}</h2>
+        </div>
+        <div class="icon-box">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+      </div>
+      <p class="text-muted">Combined funds held by all accounts in the system.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="summary-card card p-4">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+          <h6>Total Deposits</h6>
+          <h2>${{ "{0:,.2f}".format(total_deposits) }}</h2>
+        </div>
+        <div class="icon-box">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+      </div>
+      <p class="text-muted">Funds available across customer accounts today.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mt-5">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <p class="section-title mb-1">Latest Account Activity</p>
+      <h4 class="fw-bold">Recently opened accounts</h4>
+    </div>
+    <a href="{{ url_for('accounts') }}" class="btn btn-outline-light btn-sm">View All Accounts</a>
+  </div>
+  <div class="table-card p-4">
+    <div class="table-responsive">
+      <table class="table table-borderless text-white align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Account No</th>
+            <th>Name</th>
+            <th>Balance</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if latest_account %}
+          {% for account in latest_account %}
+          <tr>
+            <td>{{ account['account_no'] }}</td>
+            <td>{{ account['account_name'] }}</td>
+            <td>${{ "{0:,.2f}".format(account['balance']) }}</td>
+            <td>{{ account['created_at'] }}</td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr><td colspan="4" class="text-muted">No accounts found yet.</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

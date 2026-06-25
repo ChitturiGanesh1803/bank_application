@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="form-card p-5">
+      <div class="mb-4">
+        <p class="section-title mb-2">Deposit Funds</p>
+        <h2 class="fw-bold">Add funds to a Union Bank account</h2>
+        <p class="text-muted">Enter the account number and deposit amount, then confirm your transaction.</p>
+      </div>
+      <form id="depositForm" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+          {{ form.account_no.label(class_='form-label') }}
+          {{ form.account_no(id='account_no', class_='form-control') }}
+          {% for error in form.account_no.errors %}
+          <div class="form-error">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="mb-3">
+          {{ form.amount.label(class_='form-label') }}
+          {{ form.amount(id='amount', class_='form-control') }}
+          {% for error in form.amount.errors %}
+          <div class="form-error">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% if previous_balance is not none %}
+        <div class="mb-3 p-3 rounded-3" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);">
+          <p class="mb-1 text-muted">Previous Balance</p>
+          <h5>${{ "{0:,.2f}".format(previous_balance) }}</h5>
+          <p class="mb-1 text-muted">Updated Balance</p>
+          <h5>${{ "{0:,.2f}".format(updated_balance) }}</h5>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
